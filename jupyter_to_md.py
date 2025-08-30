@@ -9,6 +9,7 @@ from io import StringIO
 import shutil
 import re
 
+FOLDER_PREFIX = 'nb '
 ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 class HTMLTableToMarkdown(Preprocessor):
@@ -64,7 +65,7 @@ def convert_notebook(ipynb_path):
         output_dir = os.path.dirname(ipynb_path)
         
         # Create folder with notebook name (no _files suffix)
-        notebook_folder = os.path.join(output_dir, notebook_name)
+        notebook_folder = os.path.join(output_dir, FOLDER_PREFIX + notebook_name)
         os.makedirs(notebook_folder, exist_ok=True)
         
         # Create media subfolder
@@ -93,7 +94,7 @@ def convert_notebook(ipynb_path):
                 f.write(data)
 
         # Write markdown to the notebook folder
-        md_filename = f"{notebook_name}.md"
+        md_filename = f"{FOLDER_PREFIX}{notebook_name}.md"
         md_path = os.path.join(notebook_folder, md_filename)
         with open(md_path, "w", encoding="utf-8") as f:
             f.write(body)
